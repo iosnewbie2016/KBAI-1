@@ -9,7 +9,7 @@
 # These methods will be necessary for the project's main method to run.
 
 # Install Pillow and uncomment this line to access image processing.
-#from PIL import Image
+from PIL import Image
 
 class Agent:
     # The default constructor for your Agent. Make sure to execute any
