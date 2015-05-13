@@ -45,3 +45,9 @@ class Agent:
     # Returning your answer as a string may cause your program to crash.
     def Solve(self,problem):
         return -1
+    
+def test():
+    pass
+
+if __name__ == '__main__':
+    test()
