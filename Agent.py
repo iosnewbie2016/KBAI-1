@@ -19,7 +19,7 @@ class Agent:
     # Do not add any variables to this signature; they will not be used by
     # main().
     def __init__(self):
-        pass
+        self.enableVerbal = True
     # The primary method for solving incoming Raven's Progressive Matrices.
     # For each problem, your Agent's Solve() method will be called. At the
     # conclusion of Solve(), your Agent should return a String representing its
@@ -44,23 +44,32 @@ class Agent:
     # Make sure to return your answer *as an integer* at the end of Solve().
     # Returning your answer as a string may cause your program to crash.
     def Solve(self,problem):
-        print(problem.problemType)
-        print(problem.correctAnswer)
-        print(problem.hasVisual)
-        print(problem.hasVerbal)
-        print(problem.figures)
+        self.displayProblem(problem)
+        return -1
+    
+    def displayProblem(self, problem):
+        print('Problem Details'.upper())
+        print('{:-<20}'.format(''))
+        print('{:>10}'.format('Type: ') + problem.problemType)
+        print('{:>10}'.format('Answer: ') + str(problem.correctAnswer))
+        print('{:>10}'.format('Visual: ') + str(problem.hasVisual))
+        print('{:>10}'.format('Verbal: ') + str(problem.hasVerbal))
+        print('\nFigures')
+        print('{:-<20}'.format(''))
         for name, figure in problem.figures.items():
-            #print('Figure: ' + figure)
             self.displayFigure(figure)
-            pass
         action = input("Continue?")
         if action == 'n':
             sys.exit(0)
-        return -1
     
     def displayFigure(self, figure):
         print('{:>10}'.format('Figure: ') + figure.name)
         print('{:>10}'.format('File: ') + figure.visualFilename)
+        if self.enableVerbal:
+            for name, object in figure.objects.items():
+                print('{:>20}'.format('Object Name: ') + name)
+                for attribute, value in object.attributes.items():
+                    print('{:>30}'.format('Attribute: ') + attribute + " = " + value)
     
 def test():
     pass
