@@ -10,6 +10,7 @@
 
 # Install Pillow and uncomment this line to access image processing.
 from PIL import Image
+import sys
 
 class Agent:
     # The default constructor for your Agent. Make sure to execute any
@@ -19,7 +20,6 @@ class Agent:
     # main().
     def __init__(self):
         pass
-
     # The primary method for solving incoming Raven's Progressive Matrices.
     # For each problem, your Agent's Solve() method will be called. At the
     # conclusion of Solve(), your Agent should return a String representing its
@@ -44,7 +44,23 @@ class Agent:
     # Make sure to return your answer *as an integer* at the end of Solve().
     # Returning your answer as a string may cause your program to crash.
     def Solve(self,problem):
+        print(problem.problemType)
+        print(problem.correctAnswer)
+        print(problem.hasVisual)
+        print(problem.hasVerbal)
+        print(problem.figures)
+        for name, figure in problem.figures.items():
+            #print('Figure: ' + figure)
+            self.displayFigure(figure)
+            pass
+        action = input("Continue?")
+        if action == 'n':
+            sys.exit(0)
         return -1
+    
+    def displayFigure(self, figure):
+        print('{:>10}'.format('Figure: ') + figure.name)
+        print('{:>10}'.format('File: ') + figure.visualFilename)
     
 def test():
     pass
