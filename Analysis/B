@@ -1,0 +1,97 @@
+General questions:
+	Are the entire figures the same?
+	Are there any shapes that remain the same?
+		If yes, are the sizes the same?
+		If yes, are the fills the same?
+		If yes, are the angles the same?
+	Are there any shapes that are removed?
+	Are there any shapes that are added?
+	
+Code Notes
+	Arrange nested objects in arrays?
+	Arrange next object in dicts?
+	Create checkReflection function
+		if no, assign rotation
+	
+
+B-01-09
+	A -> B
+		Is B the same shape as A?
+			if yes:
+				create rule that says shape D = C
+			if no:
+				create rule that says shape D = B
+		Is B the same size as A?
+			if yes:
+				create rule that says size D = C
+			if no:
+				create rule that says size D = B
+		Is B the same fill as A?
+			yes
+		Is B the same position as A?
+			yes
+	A -> C
+		Is C the same shape as A?
+			yes
+		Is C the same size as A?
+			yes
+		Is C the same fill as A?
+			yes
+		Is C the same position as A?
+			yes
+	If D1 == D2
+		Check if in answers
+		if yes:
+			return as answer
+		if no:
+			continue
+	Else
+		New
+	
+B-10
+	A -> B
+		Are there any shapes that remain the same?
+			yes, the outer large circle
+		Are there any shapes that are removed?
+			yes, the inner circle
+		Are there any new shapes?
+			yes, a medium square inside the large circle
+	A -> C
+		Are there any shapes that remain the same?
+			yes, all original shapes
+		Are there any shapes that are removed?
+			no
+		Are there any shapes that are added?
+			yes, a small filled square inside all other shapes
+			
+B-11
+	A -> B
+		Are there any shapes that remain the same?
+			yes, the outer shape
+		Are there any shapes that are removed?
+			yes, the inner shape
+		Are there any shapes that are added?
+			no
+	A -> C
+		Are there any shapes that remain the same?
+			yes, the inner shapes
+		Are there any shapes that are removed?
+			yes, the outer shape
+		Are there any shapes that are added?
+			yes, the outer shape
+			
+B-12
+	A -> B
+		Are there any shapes that remain the same?
+			yes, the inner 3 shapes
+		Are there any shapes that are removed?
+			yes, the outer 2 shapes
+		Are there any shapes added?
+			no
+	A -> C
+		Are there any shapes that remain the same?
+			yes, the outer 3 shapes
+		Are there any shapes that are removed?
+			yes, the inner 2 shapes
+		Are there any shapes added?
+			no
