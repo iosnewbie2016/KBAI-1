@@ -9,10 +9,13 @@
 # These methods will be necessary for the project's main method to run.
 
 # Install Pillow and uncomment this line to access image processing.
-from PIL import Image
+#from PIL import Image
 import sys
+from TwoByTwo import TwoByTwo
 
 class Agent:
+    CONFIG = dict(type2x2 = '2x2',
+                  type3x3 = '3x3')
     # The default constructor for your Agent. Make sure to execute any
     # processing necessary before your Agent starts solving problems here.
     #
@@ -44,32 +47,18 @@ class Agent:
     # Make sure to return your answer *as an integer* at the end of Solve().
     # Returning your answer as a string may cause your program to crash.
     def Solve(self,problem):
-        self.displayProblem(problem)
+        problemSolver = self.createProblemSolver(problem)
+        #problemSolver.displayProblem(problemSolver.problem)
+        problemSolver.runAnalysis()
         return -1
     
-    def displayProblem(self, problem):
-        print('Problem Details'.upper())
-        print('{:-<20}'.format(''))
-        print('{:>10}'.format('Type: ') + problem.problemType)
-        print('{:>10}'.format('Answer: ') + str(problem.correctAnswer))
-        print('{:>10}'.format('Visual: ') + str(problem.hasVisual))
-        print('{:>10}'.format('Verbal: ') + str(problem.hasVerbal))
-        print('\nFigures')
-        print('{:-<20}'.format(''))
-        for name, figure in problem.figures.items():
-            self.displayFigure(figure)
-        action = input("Continue?")
-        if action == 'n':
-            sys.exit(0)
-    
-    def displayFigure(self, figure):
-        print('{:>10}'.format('Figure: ') + figure.name)
-        print('{:>10}'.format('File: ') + figure.visualFilename)
-        if self.enableVerbal:
-            for name, object in figure.objects.items():
-                print('{:>20}'.format('Object Name: ') + name)
-                for attribute, value in object.attributes.items():
-                    print('{:>30}'.format('Attribute: ') + attribute + " = " + value)
+    def createProblemSolver(self, problem):
+        if problem.problemType == self.CONFIG['type2x2']:
+            print('Creating 2x2 for {}...'.format(problem.name))
+            return TwoByTwo(problem)
+        else:
+            print('Creating 3x3 for {}...'.format(problem.name))
+            return ThreeByThree(problem)
     
 def test():
     pass
