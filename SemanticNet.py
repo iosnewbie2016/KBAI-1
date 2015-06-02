@@ -52,25 +52,28 @@ FUNCTIONS
     
 """
 
-COMPARISON_WEIGHTS = {'shape'        : 4,
-                      'size'         : 4,
-                      'reflection'   : 2,
-                      'rotation'     : 1,
-                      'fill'         : 2,
-                      'alignment'    : 1,
-                      'above'        : 1,
-                      'inside'       : 1}
+COMPARISON_WEIGHTS = {'shape'       : 4,
+                      'size'        : 4,
+                      'reflection'  : 2,
+                      'rotation'    : 1,
+                      'angle'       : 1,
+                      'fill'        : 2,
+                      'alignment'   : 1,
+                      'above'       : 1,
+                      'inside'      : 1}
 
 def semanticNet(srcFig, dstFig):
     availableObjs = dstFig.objects
     graph = {}
-    for srcObjName, srcObj in srcFig.objects:
+    for srcObjName, srcObj in srcFig.objects.items():
         score = initScore(availableObjs)
-        for srcKey, srcVal in srcObj.attributes:
-            #COMPARISON_FUNCTIONS.get(srcKey)(score, srcVal, **availableObjs)
-            compare(srcKey, srcVal, score, **availableObjs)
-        # best = max(score, key = score.get)
-        # availableObjs.del(best)
+        for srcKey, srcVal in srcObj.attributes.items():
+            COMPARISON_FUNCTIONS.get(srcKey)(srcKey, srcVal, score, **availableObjs)
+            #compare(srcKey, srcVal, score, **availableObjs)
+        best = max(score, key = score.get)
+        graph[srcObjName] = best
+        del availableObjs[best]
+    print(str(graph))
             
 def initScore(objs):
     score = {}
@@ -79,27 +82,45 @@ def initScore(objs):
     return score
 
 def compare(srcKey, srcVal, score, **kwargs):
-    for dstName, dstObj in kwargs:
+    for dstName, dstObj in kwargs.items():
         if dstObj.attributes.get(srcKey, False) == srcVal:
-            score[dstName] += COMPARISON_WEIGHTS[dstName]
-        
-def compareShape(score, srcVal, **kwargs):
-    for dstName, dstObj in kwargs:
-        if dstObj.attributes.get('shape', False) == srcVal:
-            score[dstName] += COMPARISON_WEIGHTS[dstName]
-        
-def compareSize(score, srcVal, **kwargs):
+            score[dstName] += COMPARISON_WEIGHTS.get(srcKey, 0)
+            
+def compareAbove(srcKey, srcVal, score, **kwargs):
     pass
 
-def compareFill(score, srcVal, **kwargs):
+def compareInside(srcKey, srcVal, score, **kwargs):
     pass
+
+def compareAngle(srcKey, srcVal, score, **kwargs):
+    pass
+
+def compareAlignment(srcKey, srcVal, score, **kwargs):
+    pass
+        
+COMPARISON_FUNCTIONS = {'shape'         : compare,
+                        'size'          : compare,
+                        'angle'         : compareAngle,
+                        'fill'          : compare,
+                        'alignment'     : compareAlignment,
+                        'above'         : compareAbove,
+                        'inside'        : compareInside}
+####################
+# TESTING
+####################
+def test(figNameA, figNameB):
+    from Test import Problem
     
-COMPARISON_FUNCTIONS = {'shape' : compareShape,
-                        'size'  : compareSize,
-                        'fill'  : compareFill}
+    problemSet = 'Basic Problems B'
+    problemName = 'Basic Problem B-11'
+    problem = Problem(problemSet, problemName)
+    figA = problem.problem.figures[figNameA]
+    figB = problem.problem.figures[figNameB]
 
-def main():
-    compare('shape')
+    semanticNet(figA, figB)
+
 
 if __name__ == '__main__':
-    main()
+    figureA = input('Figure A: ')
+    figureB = input('Figure B: ')
+    test(figureA, figureB)
