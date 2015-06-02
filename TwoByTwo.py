@@ -1,7 +1,7 @@
 from PIL import Image
 
-class  TwoByTwo:
-    CONFIG = dict(topLeft = 'A',
+class TwoByTwo:
+    LAYOUT = dict(topLeft = 'A',
                   topRight = 'B',
                   bottomLeft = 'C',
                   answers = [1, 2, 3, 4, 5, 6])
@@ -12,8 +12,8 @@ class  TwoByTwo:
     
     def runAnalysis(self):
         print('Running analysis...')
-        ansRow = self.getAToB(self.problem.figures[self.CONFIG['topLeft']], self.problem.figures[self.CONFIG['topRight']])
-        ansCol = self.getAToC(self.problem.figures[self.CONFIG['topLeft']], self.problem.figures[self.CONFIG['bottomLeft']])
+        ansRow = self.getAToB(self.problem.figures[self.LAYOUT['topLeft']], self.problem.figures[self.LAYOUT['topRight']])
+        ansCol = self.getAToC(self.problem.figures[self.LAYOUT['topLeft']], self.problem.figures[self.LAYOUT['bottomLeft']])
         print('ansRow: {}'.format((ansRow)))
         print('ansCol: {}'.format(str(ansCol)))
         if ansRow == ansCol:
@@ -23,14 +23,14 @@ class  TwoByTwo:
     def getAToB(self, figureA, figureB):
         print('Comparing {} and {}...'.format(figureA.name,figureB.name))
         if self.isSameImage(figureA, figureB):
-            print('Setting answer to image at: {}'.format(self.problem.figures[self.CONFIG['bottomLeft']].visualFilename))
-            return self.getImage(self.problem.figures[self.CONFIG['bottomLeft']])
+            print('Setting answer to image at: {}'.format(self.problem.figures[self.LAYOUT['bottomLeft']].visualFilename))
+            return self.getImage(self.problem.figures[self.LAYOUT['bottomLeft']])
     
     def getAToC(self, figureA, figureC):
         print('Comparing {} and {}...'.format(figureA.name,figureC.name))
         if self.isSameImage(figureA,figureC):
-            print('Setting answer to image at: {}'.format(self.problem.figures[self.CONFIG['topRight']].visualFilename))
-            return self.getImage(self.problem.figures[self.CONFIG['topRight']])
+            print('Setting answer to image at: {}'.format(self.problem.figures[self.LAYOUT['topRight']].visualFilename))
+            return self.getImage(self.problem.figures[self.LAYOUT['topRight']])
         
     def isSameImage(self, figureA, figureB):
         if self.getImage(figureA) == self.getImage(figureB):
