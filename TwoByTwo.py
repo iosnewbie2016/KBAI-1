@@ -116,10 +116,23 @@ def test(figureNameA, figureNameB):
     figureA = problemSolver.problem.figures[figureNameA]
     figureB = problemSolver.problem.figures[figureNameB]
 
-    problemSolver.getImage(figureA).show()
-    problemSolver.getImage(figureB).show()
+    imgToRed(problemSolver.getImage(figureA))
+    #problemSolver.getImage(figureB)
 
     print(problemSolver.isSameImage(figureA, figureB))
+    
+def imgToRed(img):
+    black = (0, 0, 0, 255)
+    red = (126, 126, 0, 0)
+    w, h = img.size
+    for x in range(w):
+        for y in range(h):
+            if img.getpixel((x, y)) == black:
+                img.putpixel((x, y), red)
+            else:
+                pass
+    img.show()
+    
     
 if __name__ == '__main__':
     figureA = input('Figure A: ')
