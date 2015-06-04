@@ -51,6 +51,16 @@ FUNCTIONS
                 8 -> Above
     
 """
+def semanticNet(srcFig, dstFig):
+    graph = getLinks(srcFig, dstFig)
+    getTrans(srcFig, dstFig, graph)
+    
+    print(str(graph))
+
+#######################
+# LINKS
+#######################
+LINK = 'link'
 
 COMPARISON_WEIGHTS = {'shape'       : 4,
                       'size'        : 4,
@@ -61,20 +71,21 @@ COMPARISON_WEIGHTS = {'shape'       : 4,
                       'alignment'   : 1,
                       'above'       : 1,
                       'inside'      : 1}
-
-def semanticNet(srcFig, dstFig):
-    availableObjs = dstFig.objects
+         
+def getLinks(srcFig, dstFig):
     graph = {}
+    availableObjs = dstFig.objects
     for srcObjName, srcObj in srcFig.objects.items():
         score = initScore(availableObjs)
         for srcKey, srcVal in srcObj.attributes.items():
             COMPARISON_FUNCTIONS.get(srcKey)(srcKey, srcVal, score, **availableObjs)
             #compare(srcKey, srcVal, score, **availableObjs)
         best = max(score, key = score.get)
-        graph[srcObjName] = best
+        graph[srcObjName] = {}
+        graph[srcObjName][LINK] = best
         del availableObjs[best]
-    print(str(graph))
-            
+    return graph
+   
 def initScore(objs):
     score = {}
     for name in objs:
@@ -105,14 +116,46 @@ COMPARISON_FUNCTIONS = {'shape'         : compare,
                         'alignment'     : compareAlignment,
                         'above'         : compareAbove,
                         'inside'        : compareInside}
-####################
+
+#######################
+# GET TRANSFORMATIONS
+#######################
+TRANS = 'trans'
+
+def getTrans(srcFig, dstFig, graph):
+    for objName, obj in graph.items():
+        graph[objName][TRANS] = {}
+        print(str(objName) + ' -> ' + str(obj))
+
+GET_TRANS_FUNCTIONS = {'shape'          : getTrans,
+                       'size'           : getTrans,
+                       'angle'          : getTrans,
+                       'fill'           : getTrans,
+                       'alignment'      : getTrans,
+                       'above'          : getTrans,
+                       'inside'         : getTrans}
+
+#######################
+# APPLY TRANSFORMATIONS
+#######################
+def applyTrans():
+    pass
+
+APPLY_TRANS_FUNCTIONS = {'shape'        : applyTrans,
+                         'size'         : applyTrans,
+                         'angle'        : applyTrans,
+                         'fill'         : applyTrans,
+                         'alignment'    : applyTrans,
+                         'above'        : applyTrans,
+                         'inside'       : applyTrans}
+#######################
 # TESTING
-####################
+#######################
 def test(figNameA, figNameB):
     from Test import Problem
     
     problemSet = 'Basic Problems B'
-    problemName = 'Basic Problem B-11'
+    problemName = 'Basic Problem B-01'
     problem = Problem(problemSet, problemName)
     figA = problem.problem.figures[figNameA]
     figB = problem.problem.figures[figNameB]
