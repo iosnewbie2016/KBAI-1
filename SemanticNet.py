@@ -64,14 +64,21 @@ LINK = 'link'
 
 COMPARISON_WEIGHTS = {'shape'       : 4,
                       'size'        : 4,
+                      'fill'        : 2,
                       'reflection'  : 2,
                       'rotation'    : 1,
                       'angle'       : 1,
-                      'fill'        : 2,
                       'alignment'   : 1,
                       'above'       : 1,
                       'inside'      : 1}
-         
+
+SIZE = {'very small'    : 0,
+        'small'         : 1,
+        'medium'        : 2,
+        'large'         : 3,
+        'very large'    : 4,
+        'huge'          : 5}
+      
 def getLinks(srcFig, dstFig):
     graph = {}
     availableObjs = dstFig.objects
@@ -111,8 +118,8 @@ def compareAlignment(srcKey, srcVal, score, **kwargs):
         
 COMPARISON_FUNCTIONS = {'shape'         : compare,
                         'size'          : compare,
-                        'angle'         : compareAngle,
                         'fill'          : compare,
+                        'angle'         : compareAngle,
                         'alignment'     : compareAlignment,
                         'above'         : compareAbove,
                         'inside'        : compareInside}
@@ -125,7 +132,11 @@ TRANS = 'trans'
 def getTrans(srcFig, dstFig, graph):
     for objName, obj in graph.items():
         graph[objName][TRANS] = {}
-        print(str(objName) + ' -> ' + str(obj))
+        print('{} : link = {}, trans = {}'.format(str(objName), obj[LINK], obj[TRANS]))
+
+
+def getTransShape():
+    pass
 
 GET_TRANS_FUNCTIONS = {'shape'          : getTrans,
                        'size'           : getTrans,
