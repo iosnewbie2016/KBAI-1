@@ -6,51 +6,51 @@ A
 	a
 		shape:square
 		size:small
-		fill:yes
+		fill:no
 		above:d,e,f,g,h,i
 		left-of:b,c,e,f,h,i
 	b
 		shape:square
 		size:small
-		fill:yes
+		fill:no
 		above:d,e,f,g,h,i
 		left-of:c,f,i
 	c
 		shape:square
 		size:small
-		fill:no
+		fill:yes
 		above:d,e,f,g,h,i
 	d
 		shape:square
 		size:small
-		fill:yes
+		fill:no
 		above:g,h,i
 		left-of:b,c,e,f,h,i
 	e
 		shape:square
 		size:small
-		fill:yes
+		fill:no
 		above:g,h,i
 		left-of:c,f,i
 	f
 		shape:square
 		size:small
-		fill:yes
+		fill:no
 		above:g,h,i
 	g
 		shape:square
 		size:small
-		fill:no
+		fill:yes
 		left-of:b,c,e,f,h,i
 	h
 		shape:square
 		size:small
-		fill:yes
+		fill:no
 		left-of:c,f,i
 	i
 		shape:square
 		size:small
-		fill:yes
+		fill:no
 B
 	j
 		shape:square

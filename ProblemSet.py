@@ -64,7 +64,6 @@ class ProblemSet:
                 elif not line.startswith("\t\t"):
                     line=line.replace("\t","")
                     newObject=RavensObject(line)
-                    #currentFigure.objects[line]=RavensObject(line)
                     currentFigure.objects[line]=newObject
                     currentObject=newObject
                 elif line.startswith("\t\t"):

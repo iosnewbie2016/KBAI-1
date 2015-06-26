@@ -1,81 +1,68 @@
 from PIL import Image
 import os
 
-class Edge:
-    COLORS = dict(black = (0, 0, 0, 255),
-                  white = (255, 255, 255, 255),
-                  red = (255, 0, 0, 0))
-    
-    def __init__(self, img):
-        self.img = img
-        self.edge = []
-        
-    def findEdge(self):
-        start = self.findBlackPixel()
-        next = start
-        last = None
-        while next:
-            next, last = self.getNextPixel(next, last)
-        
-    def findBlackPixel(self):
-        w, h = self.img.size
-        for x in range(w):
-            for y in range(h):
-                if self.img.getpixel((x, y)) == self.COLORS.get('black'):
-                    return (x, y)
-                else:
-                    continue
-    
-    def getNextPixel(self, curr, last=None):
-        self.edge.append(curr)
-        adjPixels = self.getAdjPixels(curr)
-        end = len(adjPixels)
-        for i, pixel in enumerate(adjPixels):
-            if self.isLegitPixel(i, pixel, adjPixels, last):
-                return pixel, curr
-        return False, curr
-    
-    def isLegitPixel(self, i, pixel, adjPixels, last):
-        if pixel != self.COLORS.get('black'):
-            return False
-        if adjPixels[(i - 1) % end] != self.COLORS.get('black') or adjPixels[(i + 1) % end] != self.COLORS.get('black'):
-            return False
-        if pixel == last:
-            return False
-        return True
-    
-    def getAdjPixels(self, xy):
-        x, y = xy
-        adjPixels = []
-        adjPixels.append((x-1, y+1))
-        adjPixels.append((x, y+1))
-        adjPixels.append((x+1, y+1))
-        adjPixels.append((x+1, y))
-        adjPixels.append((x+1, y-1))
-        adjPixels.append((x, y-1))
-        adjPixels.append((x-1, y-1))
-        adjPixels.append((x-1, y))
-        return adjPixels
-    
-    def highlightEdge(self):
-        for pixel in self.edge:
-            self.img.putpixel(pixel, self.COLORS.get('red'))
-            
-    def showImage(self):
-        self.img.show()
+
         
 def test():
     setName = 'Basic Problems B'
-    problemName = 'Basic Problem B-01'
-    imgName = input("Image: ")
-    imgFile = "Problems" + os.sep + setName + os.sep + problemName + os.sep + imgName + ".PNG"
-    img = Image.open(imgFile)
-    edge = Edge(img)
-    edge.showImage()
-    edge.findEdge()
-    edge.highlightEdge()
-    edge.showImage()
-    print(edge.edge)
+    problemName = 'Basic Problem B-04'
+    imgNameA = input("Image: ")
+    imgFileA = "Problems" + os.sep + setName + os.sep + problemName + os.sep + imgNameA + ".PNG"
+    imgNameB = input("Image: ")
+    imgFileB = "Problems" + os.sep + setName + os.sep + problemName + os.sep + imgNameB + ".PNG"
+    imgA = Image.open(imgFileA)
+    imgB = Image.open(imgFileB)
+    
+    imgDataA = imgA.getdata()
+    imgDataB = imgB.getdata()
+    
+    w = imgA.size[0]
+    h = imgA.size[1]
+    
+    refA = imgA.transpose(Image.FLIP_LEFT_RIGHT)
+    refDataA = refA.getdata()
+    
+    possibleMatch = w * h
+    actualMatch = 0
+    actualMiss = 0
+    for i in range(w*h):
+        if refDataA[i] == imgDataB[i]:
+            actualMatch += 1
+        else:
+            actualMiss += 1
+            
+    print('Possible: {}, Actual Match: {}, Actual Miss: {}'.format(possibleMatch, actualMatch, actualMiss))
+    print('Percentage: {}'.format(actualMatch/possibleMatch*100.0))
 
 if __name__ == "__main__":
     test()
+    
+    
+    
+    graph = {'a' : {link : 'f'},
+             'b' : {link : 'e'},
+             ADD : ['s']
+             }
+    sdf
+        sdf
+    
+    ANS
+        f
+            shape:circle
+            size:huge
+            fill:no
+        e
+            shape:square
+            size:medium
+            fill:no
+            inside:f
+        s
+            shape:square
+            size:very small
+            fill:yes
+            inside:f, e
+    
+    
+    
+    
+    

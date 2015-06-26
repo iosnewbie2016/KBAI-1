@@ -171,9 +171,9 @@ H
 		shape:circle
 		size:large
 		fill:no
-		inside:2
+		inside:7
 	9
 		shape:circle
 		size:small
 		fill:no
-		inside:2,3
+		inside:7,8
