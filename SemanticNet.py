@@ -358,7 +358,6 @@ class Generate(SemanticNet):
         ansFig.objects[objName].attributes[transName] = self.SIZE_INVERSE[newSize]
         
     def applyTransFill(self, transName, transAction, ansFig, objName):
-        print('TransFill: {}'.format(transAction))
         ansFig.objects[objName].attributes[transName] = transAction
         
     def applyTransAlignment(self, transName, transAction, ansFig, objName):

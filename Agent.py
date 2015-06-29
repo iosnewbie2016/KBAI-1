@@ -10,6 +10,8 @@
 
 # Install Pillow and uncomment this line to access image processing.
 #from PIL import Image
+from TwoByTwo import TwoByTwo
+from ThreeByThree import ThreeByThree
 
 class Agent:
     # The default constructor for your Agent. Make sure to execute any
@@ -44,6 +46,23 @@ class Agent:
     # Make sure to return your answer *as an integer* at the end of Solve().
     # Returning your answer as a string may cause your program to crash.
     def Solve(self,problem):
+        if problem.problemType == '2x2':
+            if problem.hasVerbal:
+                solver = TwoByTwo(problem)
+                return solver.solve()
+            else:
+                return -1
+        else:
+            solver = ThreeByThree(problem)
+            return solver.solve()
         
         
-        return -1
+def Test():
+    from Test import Problem
+    
+    problemSet = 'Basic Problems C'
+    problemName = 'Basic Problem C-08'
+    problemImages = {}
+    problem = Problem(problemSet, problemName)
+    agent = Agent()
+    agent.Solve(problem.problem)

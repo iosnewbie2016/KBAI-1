@@ -18,7 +18,7 @@ class TwoByTwo:
         self.problem = problem
         #print('You created a 2x2!!!')
     
-    def runAnalysis(self):
+    def solve(self):
         ans = self.AB_CD()
         return ans
 

@@ -9,12 +9,14 @@ import os
 import sys
 from Agent import Agent
 from ProblemSet import ProblemSet
+import time
 
 # The main driver file for Project2. You may edit this file to change which
 # problems your Agent addresses while debugging and designing, but you should
 # not depend on changes to this file for final execution of your project. Your
 # project will be graded using our own version of this file.
 def main():
+    startTime = time.time()
     sets=[] # The variable 'sets' stores multiple problem sets.
             # Each problem set comes from a different folder in /Problems/
             # Additional sets of problems will be used when grading projects.
@@ -57,6 +59,8 @@ def main():
         setResults.write("%s\n" % setResult)
     results.close()
     setResults.close()
+    endTime = time.time()
+    print('Total Time: {}'.format(endTime - startTime))
 
 def getNextLine(r):
     return r.readline().rstrip()

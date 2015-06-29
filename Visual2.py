@@ -262,7 +262,7 @@ def generateAddSubtract(srcImg, addImg, subImg):
     dstImg = ImageChops.subtract(dstImg, subImg)
     return dstImg
 
-####################################
+####################################s
 # Test Functions
 ####################################
 
