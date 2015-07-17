@@ -10,7 +10,7 @@
 
 # Install Pillow and uncomment this line to access image processing.
 #from PIL import Image
-from TwoByTwo import TwoByTwo
+from TwoByTwo import TwoByTwo, TwoByTwoVisual
 from ThreeByThree import ThreeByThree
 
 class Agent:
@@ -47,11 +47,16 @@ class Agent:
     # Returning your answer as a string may cause your program to crash.
     def Solve(self,problem):
         if problem.problemType == '2x2':
+            solver = TwoByTwoVisual(problem)
+            return solver.solve()
+            
+            """
             if problem.hasVerbal:
                 solver = TwoByTwo(problem)
                 return solver.solve()
             else:
                 return -1
+                """
         else:
             solver = ThreeByThree(problem)
             return solver.solve()

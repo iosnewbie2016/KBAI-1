@@ -1,5 +1,4 @@
 from PIL import Image, ImageDraw, ImageChops, ImageStat, ImageFilter
-from Test import Problem
 import math
 import time
 
@@ -35,8 +34,18 @@ class Utility:
         #imgBoxWidth = imgBox[2] - imgBox[0]
         #imgBoxHeight = imgBox[3] - imgBox[1]
         centerCoords = ((imgWidth - imgBoxWidth)/2, (imgHeight - imgBoxHeight)/2)
-        
         return ImageChops.offset(img, int(centerCoords[0] - imgBox[0]), int(centerCoords[1] - imgBox[1]))
+    
+    @staticmethod
+    def topLeftCornerImage(img):
+        imgBox, imgBoxWidth, imgBoxheight = Utility.getBox(img)
+        return ImageChops.offset(img,-imgBox[0], -imgBox[1])
+    
+    @staticmethod
+    def bottomLeftCornerImage(img):
+        imgBox, imgBoxWidth, imgBoxheight = Utility.getBox(img)
+        return ImageChops.offset(img, -imgBox[0], img.size[1] - imgBox[3])
+    
     
     @staticmethod
     def getBox(img):
@@ -92,7 +101,15 @@ class Compare(Utility):
     TRANSLATION_THRESHOLD = .95
     CROSS_THRESHOLD = .95
     ROTATION_THRESHOLD = .95
-    ADD_SUB_THRESHOLD = .98
+    ADD_SUB_THRESHOLD = .975
+    
+    THRESHOLDS = {'identity' : .985,
+                  'reflection' : .97,
+                  'translation' : .95,
+                  'cross' : .95,
+                  'rotation' : .95,
+                  'addSub' : .98}
+    
     
     WEIGHTS = {'identity' : .05,
                'reflection' : .02,
@@ -131,7 +148,7 @@ class Compare(Utility):
         srcImg = Utility.centerImage(srcImg).filter(ImageFilter.GaussianBlur(3))
         dstImg = Utility.centerImage(dstImg).filter(ImageFilter.GaussianBlur(3))
         score = Utility.pixelMatch(srcImg, dstImg)
-        if score > self.IDENTITY_THRESHOLD:
+        if score > self.THRESHOLDS['identity']:
             score += self.WEIGHTS['identity']
             self.identity = True
         if score > self.bestScore:
@@ -147,7 +164,7 @@ class Compare(Utility):
         cpyImg = srcImg.copy()
         cpyImg = cpyImg.transpose(Image.FLIP_TOP_BOTTOM)
         score = Utility.pixelMatch(cpyImg, dstImg)
-        if score > self.REFLECTION_THRESHOLD and self.tiebreaker():
+        if score > self.THRESHOLDS['reflection'] and self.tiebreaker():
             self.reflectXAxis = True
             score += self.WEIGHTS['reflection']
         if score > self.bestScore:
@@ -163,7 +180,7 @@ class Compare(Utility):
         cpyImg = srcImg.copy()
         cpyImg = cpyImg.transpose(Image.FLIP_LEFT_RIGHT)
         score = Utility.pixelMatch(cpyImg, dstImg)
-        if score > self.REFLECTION_THRESHOLD and self.tiebreaker():
+        if score > self.THRESHOLDS['reflection'] and self.tiebreaker():
             self.reflectYAxis = True
             score += self.WEIGHTS['reflection']
         if score > self.bestScore:
@@ -188,7 +205,7 @@ class Compare(Utility):
         dstImg = Utility.centerImage(dstImg)
         transWidth, transHeight = dstBoxWidth - srcBoxWidth, dstBoxHeight - srcBoxHeight
         score = Utility.pixelMatch(finalImg, dstImg)
-        if score > self.TRANSLATION_THRESHOLD:
+        if score > self.THRESHOLDS['translation']:
             self.translate = True
             score += self.WEIGHTS['translation']
         if score > self.bestScore:
@@ -221,7 +238,7 @@ class Compare(Utility):
         finalImg = Utility.centerImage(finalImg)
         dstImg = Utility.centerImage(dstImg)
         score = Utility.pixelMatch(finalImg, dstImg)
-        if score > self.CROSS_THRESHOLD:
+        if score > self.THRESHOLDS['cross']:
             self.crossX = True
             score += self.WEIGHTS['cross']
         if score > self.bestScore:
@@ -251,10 +268,10 @@ class Compare(Utility):
                 bestScoreShadow = scoreShadow
                 bestDegreeShadow = i
         
-        if bestScoreShadow > self.ROTATION_THRESHOLD and self.tiebreaker():
+        if bestScoreShadow > self.THRESHOLDS['rotation'] and self.tiebreaker():
             self.rotate = True
             bestScoreShadow += self.WEIGHTS['rotation']
-        if bestScoreNoShadow > self.ROTATION_THRESHOLD and self.tiebreaker():
+        if bestScoreNoShadow > self.THRESHOLDS['rotation'] and self.tiebreaker():
             self.rotate = True
             bestScoreNoShadow += self.WEIGHTS['rotation']
         
@@ -343,12 +360,20 @@ class Generate(Utility):
         dstImg = ImageChops.add(srcImg, addImg)
         dstImg = ImageChops.subtract(dstImg, subImg)
         return dstImg
+    
+    @staticmethod
+    def addSubtractDiff(imgA, imgB):
+        diffImg = ImageChops.difference(imgA, imgB)
+        imgA = ImageChops.subtract(imgA, diffImg)
+        imgB = ImageChops.subtract(imgB, diffImg)
+        return imgA, imgB
 
 ####################################s
 # Test Functions
 ####################################
 
 def main():
+    from Test import Problem
     BLACK = 0
     WHITE = 255
     
