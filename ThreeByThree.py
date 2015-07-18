@@ -1,4 +1,5 @@
-from Visual import Utility, Generate, Compare
+from Affine import Generate, Compare
+from Utility import Utility
 from PIL import Image, ImageChops, ImageFilter
 import time
 

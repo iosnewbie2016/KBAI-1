@@ -1,5 +1,6 @@
 from PIL import Image, ImageChops, ImageFilter
-from Visual import Utility
+from Utility import Utility
+#from Visual import Utility
 
 class RowOps:
     
@@ -34,6 +35,22 @@ class RowOps:
         addAB = RowOps.add(imgA, imgB)
         return RowOps.sub(RowOps.sub(addAB, subA), subB)
     
+    @staticmethod
+    def addXOR(imgA, imgB):
+        subA = RowOps.sub(imgA, imgB)
+        subB = RowOps.sub(imgB, imgA)
+        return RowOps.add(subA, subB)
+    
+    @staticmethod
+    def subXOR3(imgA, imgB, imgC):
+        ab = RowOps.subXOR(imgA, imgB)
+        bc = RowOps.subXOR(imgB, imgC)
+        return RowOps.subXOR(ab, bc)
+    
+class RowOpsGenerate:
+    @staticmethod
+    def subXORRowCol(imgA, imgB, imgC, imgD):
+        return RowOps.add(RowOps.subXOR(imgA, imgB), RowOps.subXOR(imgC, imgD))
     
 
 def test():
@@ -67,8 +84,11 @@ def test():
     ans7 = problemImages['7']
     ans8 = problemImages['8']
     
-    genImg = RowOps.diff(figD, figE)
+    abc = RowOps.subXOR3(figA, figB, figC)
+    
+    genImg = RowOps.diff(figG, figH)
     genImg.show()
+
     
     for i in range(1,9):
         print(str(i) + ': ' + str(Utility.pixelMatch(genImg, problemImages[str(i)])))
